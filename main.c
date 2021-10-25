@@ -1,3 +1,4 @@
+//Librerias
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,11 +6,20 @@
 
 int main(int arg, char* args[])
 {
+
+    if(arg != 2)
+    {
+        printf("Ingrese la ruta del archivo\n");
+        exit(1);
+    }
+
     FILE* archivo;
-    archivo = fopen("C:\\Users\\morfo\\Downloads\\1.jpg", "rb");
+    archivo = fopen(args[1], "rb");
+
     if(archivo == NULL)
     {
-        printf("Error al abrir el archivo");
+        printf("Error al abrir el archivo: %s \nVerifique la ruta\n", args[1]);
+        exit(1);
     }
 
     fseek(archivo, 0, SEEK_END); // Coloca el puntero al final del archivo
@@ -96,16 +106,12 @@ int main(int arg, char* args[])
         nodo* ntemp = (nodo*) malloc(sizeof(nodo));
         ntemp->left = ExtractMin(arreglo, &total_nodos);
         ntemp->right = ExtractMin(arreglo, &total_nodos);
-        ntemp->frecuencia = ntemp->left->frecuencia + ntemp->right->frecuencia;
+        ntemp->frecuencia = (ntemp->left->frecuencia) + (ntemp->right->frecuencia);
         ntemp->byte = 5;
         InsertNodo(arreglo, ntemp, &total_nodos);
     }
     printf("Despues: \n");
-    for(int i=0; i<total_nodos; i++)
-    {
-        printf("%d %d\n", arreglo[i]->byte+128, arreglo[i]->frecuencia);
-    }
-
+    tra(&arreglo[0]); 
 
 
 
