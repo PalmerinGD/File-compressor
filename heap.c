@@ -115,12 +115,3 @@ void InsertNodo(nodo* A[], nodo* nuevo, int* total)
         i = parent(i);
     }
 }
-
-void tra(nodo** A)
-{
-    if(*A == 0)
-        return;
-    tra(&((*A)->left));
-    printf("%d : %d\n", (*A)->byte + 128, (*A)->frecuencia);
-    tra(&((*A)->right));
-}

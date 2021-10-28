@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "heap.h"
+#include "hoffman.h"
+
 
 int main(int arg, char* args[])
 {
@@ -78,7 +79,8 @@ int main(int arg, char* args[])
 
    // Se almacenan los nodos
    nodo* nodos = (nodo*)malloc(total_nodos*sizeof(nodo));
-    if(nodos == NULL)
+   valor* tabla = (valor*) malloc(total_nodos*sizeof(valor));
+    if(nodos == NULL || tabla == NULL)
     {
         printf("Error al reservar memoria\n");
         exit(1);
@@ -110,8 +112,20 @@ int main(int arg, char* args[])
         ntemp->byte = 5;
         InsertNodo(arreglo, ntemp, &total_nodos);
     }
+    nodo* arbol = arreglo[0];
+    free(arreglo);
     printf("Despues: \n");
-    tra(&arreglo[0]); 
+    char c[8];
+    memset(c, 0, 8);
+    int indice = 0;
+    generarTabla(&arbol,c, 0, &indice, tabla); 
+    for(int i=0; i<indice; i++)
+    {
+        printf("Valor %d = ", tabla[i].c + 128);
+        for(size_t j = 0; j<tabla[i].tam; j++)
+            printf("%d", tabla[i].representacion[j]);
+        printf("\n");
+    }
 
 
 

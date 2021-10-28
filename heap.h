@@ -20,4 +20,3 @@ void MinHeapify(nodo* A[], int total, int i); //Manteniene la propiedad de un Mi
 void BuildMinHeap(nodo* A[], int total); //Construye un MinHeap
 nodo* ExtractMin(nodo* A[], int* total); //Extrae el elemento mas chico del MinHeap
 void InsertNodo(nodo* A[], nodo* nuevo, int* total); //Inserta un nuevo nodo al MinHeap
-void tra(nodo** A);
