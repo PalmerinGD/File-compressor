@@ -1,5 +1,4 @@
 #include "hoffman.h"
-#include <string.h>
 
 void generarTabla(nodo** A, char c[], int i, int* ind, valor* tabla)
 {
@@ -18,4 +17,15 @@ void generarTabla(nodo** A, char c[], int i, int* ind, valor* tabla)
     c[i] = 1;
     generarTabla(&((*A)->right), c, i+1, ind, tabla);
     c[i] = 0;
+}
+
+void imprimirTabla(FILE* archivo, valor* tabla, int total)
+{
+    for(int i=0; i<total; i++)
+    {
+        fprintf(archivo, "%d = ", tabla[i].c + 128);
+        for(size_t j = 0; j<tabla[i].tam; j++)
+            fprintf(archivo, "%d", tabla[i].representacion[j]);
+        fprintf(archivo, "\n");
+    }
 }

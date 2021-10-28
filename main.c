@@ -114,27 +114,19 @@ int main(int arg, char* args[])
     }
     nodo* arbol = arreglo[0];
     free(arreglo);
-    printf("Despues: \n");
+
     char c[8];
     memset(c, 0, 8);
+
     int indice = 0;
     generarTabla(&arbol,c, 0, &indice, tabla); 
-    for(int i=0; i<indice; i++)
-    {
-        printf("Valor %d = ", tabla[i].c + 128);
-        for(size_t j = 0; j<tabla[i].tam; j++)
-            printf("%d", tabla[i].representacion[j]);
-        printf("\n");
-    }
-
-
-
-
-
-
-
-
-
+    char ruta[100];
+    printf("Ingrese la ruta");
+    scanf("%[^\n]s", ruta);
+    FILE* valores;
+    valores = fopen(ruta, "wb");
+    imprimirTabla(valores, tabla, indice); 
+    fclose(valores);
 
 
 }
