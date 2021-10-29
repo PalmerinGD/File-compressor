@@ -1,4 +1,5 @@
 #include "hoffman.h"
+#include <math.h>
 
 void generarTabla(nodo** A, char c[], int i, int* ind, valor* tabla)
 {
@@ -8,6 +9,7 @@ void generarTabla(nodo** A, char c[], int i, int* ind, valor* tabla)
     {
         tabla[*ind].c = (*A)->byte;
         tabla[*ind].tam = i;
+        tabla[*ind].frecuencia = (*A)->frecuencia;
         memset(tabla[*ind].representacion, 0, 8);
         for(int j = 0; j<i; j++)
             tabla[*ind].representacion[j] = c[j];
@@ -28,4 +30,15 @@ void imprimirTabla(FILE* archivo, valor* tabla, int total)
             fprintf(archivo, "%d", tabla[i].representacion[j]);
         fprintf(archivo, "\n");
     }
+}
+
+long tamano(valor *tabla, int total)
+{
+    float temp = 0;
+    for(int i=0; i<total; i++)
+    {
+        temp += tabla[i].tam * tabla[i].frecuencia; 
+    }
+    printf("\n%f", temp);
+    return (long)ceil(temp / 8);
 }

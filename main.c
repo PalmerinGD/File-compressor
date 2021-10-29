@@ -29,29 +29,9 @@ int main(int arg, char* args[])
 
     void* buffer = malloc(tam_archivo);
     memset(buffer, 0, tam_archivo); // Inicializa el buffer byte a byte
-    /*
-    for(size_t i=0; i<tam_archivo; i++)
-    {
-        ((char*)buffer)[i] = 0;
-    } 
-    
-    */
+
     fread(buffer, 1, tam_archivo, archivo); // Lee todo el archivo y lo coloca dentro del buffer
-    /*
-    for(size_t i = 0; i<tam_archivo; i++)
-    {
-        ((char*)buffer)[i] = fgetc(archivo);
-    }
-    */
-
     fclose(archivo);
-
-    /*
-    FILE* copia;
-    copia = fopen("C:\\Users\\morfo\\Downloads\\copia1.jpg", "wb");
-    fwrite(buffer, 1, tam_archivo, copia);
-    fclose(copia);
-    */
 
    int temp = 0;
    int contador[256];
@@ -60,13 +40,6 @@ int main(int arg, char* args[])
    for(size_t i=0; i<tam_archivo; i++)
    {
        int valor = ((char*)buffer)[i] + 128;
-       /*
-       if(valor <0 || valor>256)
-       {
-           printf("%d\n", valor);
-           continue;
-       } 
-       */
        contador[valor]++;
        temp++;
    }
@@ -127,6 +100,29 @@ int main(int arg, char* args[])
     valores = fopen(ruta, "wb");
     imprimirTabla(valores, tabla, indice); 
     fclose(valores);
+    long nuevoTam = tamano(tabla, indice);
+    printf("\n%ld", nuevoTam); 
+
+    int bit = 0;
+    void* nuevoDocumento = malloc(nuevoTam);
+    memset(nuevoDocumento, 0, nuevoTam);
+    for(size_t i = 0; i<tam_archivo; i++)
+    {
+        char c = ((char*)buffer)[i];
+        int j;
+        for(j=0; j<indice; j++)
+        {
+            if(c == tabla[j].c)
+                break;
+        }
+        printf("%d :", j);
+        for(int k=0; k<tabla[j].tam; k++)
+        {
+            ((char*)nuevoDocumento)[bit/8] |= (tabla[j].representacion[k] << (bit % 8));
+            printf("%d ", ((char*)nuevoDocumento)[bit/8]);
+            bit++;
+        }
+    }
 
 
 }
