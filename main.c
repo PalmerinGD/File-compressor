@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "hoffman.h"
 
 
@@ -66,11 +67,11 @@ int main(int arg, char* args[])
     scanf("%[^\n]s", ruta);
     FILE* valores;
     valores = fopen(ruta, "wb");
+    size_t totalb = totalBytes(tabla, total_nodos);
+    fprintf(valores, "Total bits: %d\n", totalb);
     imprimirTabla(valores, tabla, total_nodos); 
     fclose(valores);
-
-    size_t totalb = totalBytes(tabla, total_nodos);
-
+    totalb = (size_t) ceil((float)totalb / 8);
     void* nuevoDocumento = malloc(totalb);
     memset(nuevoDocumento, 0, totalb);
 
@@ -84,7 +85,7 @@ int main(int arg, char* args[])
             if(c == tabla[j].c)
                 break;
         }
-        for(int k=tabla[j].tam-1; k>=0; k--)
+        for(int k=0; k<tabla[j].tam; k++)
         {
             ((char*)nuevoDocumento)[bit/8] |= (tabla[j].representacion[k] << (bit % 8));
             bit++;

@@ -86,10 +86,10 @@ void imprimirTabla(FILE* archivo, valor* tabla, int total)
 
 size_t totalBytes(valor *tabla, int total)
 {
-    float temp = 0;
+    size_t temp = 0;
     for(int i=0; i<total; i++)
     {
         temp += tabla[i].tam * tabla[i].frecuencia; 
     }
-    return (size_t)ceil(temp / 8);
+    return temp;
 }
