@@ -7,7 +7,6 @@
 
 int main(int arg, char* args[])
 {
-
     if(arg != 2)
     {
         printf("Ingrese la ruta del archivo\n");
@@ -16,113 +15,85 @@ int main(int arg, char* args[])
 
     FILE* archivo;
     archivo = fopen(args[1], "rb");
-
     if(archivo == NULL)
     {
         printf("Error al abrir el archivo: %s \nVerifique la ruta\n", args[1]);
         exit(1);
     }
 
+
     fseek(archivo, 0, SEEK_END); // Coloca el puntero al final del archivo
     size_t tam_archivo = ftell(archivo); // Indica la posicion actual del archivo 
     fseek(archivo, 0, SEEK_SET); // Coloca el puntero al inicio del archivo
 
     void* buffer = malloc(tam_archivo);
-    memset(buffer, 0, tam_archivo); // Inicializa el buffer byte a byte
+    if(buffer == NULL) exit(1);
 
+    memset(buffer, 0, tam_archivo); // Inicializa el buffer byte a byte
     fread(buffer, 1, tam_archivo, archivo); // Lee todo el archivo y lo coloca dentro del buffer
     fclose(archivo);
 
-   int temp = 0;
-   int contador[256];
-   memset(contador, 0, 256*sizeof(int));
+    int contador[256]; //Guarda las cantidades totales de los bytes
+    memset(contador, 0, 256*sizeof(int));// Inicializa contador
+    for(size_t i=0; i<tam_archivo; i++)
+    {
+        int valor_byte = ((char*)buffer)[i] + 128;
+        contador[valor_byte]++;
+    }
 
-   for(size_t i=0; i<tam_archivo; i++)
-   {
-       int valor = ((char*)buffer)[i] + 128;
-       contador[valor]++;
-       temp++;
-   }
     int total_nodos = 0;
     for(int i=0; i<256; i++)
-    {
-        if(contador[i] != 0)
-        total_nodos++;
-   }
+        if(contador[i] != 0) total_nodos++;
 
-   // Se almacenan los nodos
-   nodo* nodos = (nodo*)malloc(total_nodos*sizeof(nodo));
-   valor* tabla = (valor*) malloc(total_nodos*sizeof(valor));
+
+    nodo* nodos = (nodo*)malloc(total_nodos*sizeof(nodo)); //Se almacenan la cantidad total de nodos
+
+    valor* tabla = (valor*) malloc(total_nodos*sizeof(valor));
+
     if(nodos == NULL || tabla == NULL)
     {
         printf("Error al reservar memoria\n");
         exit(1);
     }
-    int j = 0;
-    for(int i=0; i<256; i++)
-    {
-        if(contador[i] != 0)
-        {
-            nodos[j].byte = i;
-            nodos[j].frecuencia = contador[i];
-            nodos[j].left = NULL;
-            nodos[j].right = NULL;
-            j++;
-        }
-    }
-    nodo** arreglo = (nodo**) malloc(sizeof(nodo*) * total_nodos); 
-    for(int i=0; i<total_nodos; i++)
-    {
-        arreglo[i] = &nodos[i];
-    } 
-    BuildMinHeap(arreglo, total_nodos);
-    while(total_nodos != 1)
-    {
-        nodo* ntemp = (nodo*) malloc(sizeof(nodo));
-        ntemp->left = ExtractMin(arreglo, &total_nodos);
-        ntemp->right = ExtractMin(arreglo, &total_nodos);
-        ntemp->frecuencia = (ntemp->left->frecuencia) + (ntemp->right->frecuencia);
-        ntemp->byte = 5;
-        InsertNodo(arreglo, ntemp, &total_nodos);
-    }
-    nodo* arbol = arreglo[0];
-    free(arreglo);
+    
+    inicializarNodos(contador, nodos, total_nodos); //Inicializa los nodos con sus respectivos bytes
 
-    char c[8];
-    memset(c, 0, 8);
+    nodo* arbol = construirArbol(nodos, total_nodos); //Construye el arbol y regresa la direccion de la raiz
+    llenarTabla(tabla, arbol); //Llena la tabla de valores
 
-    int indice = 0;
-    generarTabla(&arbol,c, 0, &indice, tabla); 
     char ruta[100];
-    printf("Ingrese la ruta");
+    printf("Nombre del archivo: ");
     scanf("%[^\n]s", ruta);
     FILE* valores;
     valores = fopen(ruta, "wb");
-    imprimirTabla(valores, tabla, indice); 
+    imprimirTabla(valores, tabla, total_nodos); 
     fclose(valores);
-    long nuevoTam = tamano(tabla, indice);
-    printf("\n%ld", nuevoTam); 
+
+    size_t totalb = totalBytes(tabla, total_nodos);
+
+    void* nuevoDocumento = malloc(totalb);
+    memset(nuevoDocumento, 0, totalb);
 
     int bit = 0;
-    void* nuevoDocumento = malloc(nuevoTam);
-    memset(nuevoDocumento, 0, nuevoTam);
     for(size_t i = 0; i<tam_archivo; i++)
     {
         char c = ((char*)buffer)[i];
         int j;
-        for(j=0; j<indice; j++)
+        for(j=0; j<total_nodos; j++)
         {
             if(c == tabla[j].c)
                 break;
         }
-        printf("%d :", j);
-        for(int k=0; k<tabla[j].tam; k++)
+        for(int k=tabla[j].tam-1; k>=0; k--)
         {
             ((char*)nuevoDocumento)[bit/8] |= (tabla[j].representacion[k] << (bit % 8));
-            printf("%d ", ((char*)nuevoDocumento)[bit/8]);
             bit++;
         }
     }
+    FILE* compresion;
+    compresion = fopen("comp.bn", "wb");
+    fwrite(nuevoDocumento, 1, totalb, compresion);
+    fclose(compresion);
 
 
 }

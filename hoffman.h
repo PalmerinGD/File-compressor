@@ -1,6 +1,7 @@
 #include "heap.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 typedef struct valor
 {
@@ -10,6 +11,9 @@ typedef struct valor
     char representacion[8];
 }valor;
 
-void generarTabla(nodo** A, char c[], int i, int* ind, valor* tabla);
+void inicializarNodos(int contador[], nodo nodos[], int total);
+nodo* construirArbol(nodo nodos[], int total);
+void recorridoArbol(nodo* A, char c[], int i, int* ind, valor* tabla);
+void llenarTabla(valor* tabla, nodo* A);
 void imprimirTabla(FILE* archivo, valor* tabla, int total);
-long tamano(valor* tabla, int total);
+size_t totalBytes(valor* tabla, int total);
