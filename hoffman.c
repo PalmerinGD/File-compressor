@@ -77,7 +77,7 @@ void imprimirTabla(FILE* archivo, valor* tabla, int total)
 {
     for(int i=0; i<total; i++)
     {
-        fprintf(archivo, "%d, %d = ", tabla[i].c, tabla[i].tam);
+        fprintf(archivo, "%d %d ", tabla[i].c, tabla[i].frecuencia);
         for(size_t j = 0; j<tabla[i].tam; j++)
             fprintf(archivo, "%d", tabla[i].representacion[j]);
         fprintf(archivo, "\n");

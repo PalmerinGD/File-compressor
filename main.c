@@ -68,7 +68,9 @@ int main(int arg, char* args[])
     FILE* valores;
     valores = fopen(ruta, "wb");
     size_t totalb = totalBytes(tabla, total_nodos);
-    fprintf(valores, "Total bits: %d\n", totalb);
+    fprintf(valores, "%d\n", totalb);
+    fprintf(valores, "%d\n", total_nodos);
+    fprintf(valores, "%d\n", tam_archivo);
     imprimirTabla(valores, tabla, total_nodos); 
     fclose(valores);
     totalb = (size_t) ceil((float)totalb / 8);
@@ -95,6 +97,4 @@ int main(int arg, char* args[])
     compresion = fopen("comp.bn", "wb");
     fwrite(nuevoDocumento, 1, totalb, compresion);
     fclose(compresion);
-
-
 }
