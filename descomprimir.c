@@ -17,20 +17,25 @@ int main()
     fscanf(archivo, "%d\n", &total_nodos);
     fscanf(archivo, "%d\n", &total_archivo);
 
-    nodo* nodos = malloc(sizeof(nodo)*total_nodos);
+    nodo* nodos = (nodo*)malloc(sizeof(nodo)*total_nodos);
     if(nodos == NULL) exit(1);
 
     printf("Total bits: %d\nTotal nodos: %d\n", total_bits, total_nodos);
     int i = 0;
-    while(1)
+    int contador[256];
+    memset(contador, 0, 256*sizeof(int));
+    while(i < total_nodos)
     {
-        if(feof(archivo)) break;
         char inp[100];
         fgets(inp, 100, archivo);
-        sscanf(inp, "%d %d", &nodos[i].byte, &nodos[i].frecuencia);
+        int byte;
+        int frecuencia;
+        sscanf(inp, "%d %d", &byte, &frecuencia);
+        contador[byte+128] = frecuencia;
         i++;
     }
-
+    fclose(archivo);
+    inicializarNodos(contador, nodos, total_nodos);
     nodo* arbol = construirArbol(nodos, total_nodos);
 
     FILE *comprimido;
@@ -50,27 +55,28 @@ int main()
 
     int bit = 0;
     void* nuevo = malloc(total_archivo);
-    int j = 0;
-    char flag = 0;
-    for(int i=0; i<total_archivo; i++)
+    memset(nuevo, 0, total_archivo);
+    if(nuevo == NULL) exit(1);
+    int j;
+    for(j=0; j< total_archivo; j++)
     {
         nodo* temp = arbol;
         while(temp->left != NULL && temp->right != NULL)
         {
-            if((((char*)buffer)[bit/8] & (1 << bit % 8)) != 0)
+            if((((char*)buffer)[bit/8] & (1 << (bit % 8))) != 0)
                 temp = temp->right;
-            else
+            else if((((char*)buffer)[bit/8] & (1 << (bit % 8))) == 0)
                 temp = temp->left;
             bit++;
         }
         ((char*)nuevo)[j] = temp->byte;
-        j++;
     }
+    printf("%d\n",j);
     FILE *nuevoArchivo;
-    nuevoArchivo = fopen("copia.jpg", "wb");
+    nuevoArchivo = fopen("copia.zip", "wb");
+    if(nuevoArchivo == NULL) exit(1);
     fwrite(nuevo, 1, total_archivo, nuevoArchivo);
-
-
+    fclose(nuevoArchivo);
 
 
 }

@@ -47,14 +47,14 @@ nodo* construirArbol(nodo nodos[], int total)
 
 void recorridoArbol(nodo* A, char c[], int i, int* ind, valor* tabla)
 {
-    if(A == 0)
+    if(A == NULL)
         return;
     if(A->left == NULL && A->right == NULL)
     {
         tabla[*ind].c = A->byte;
         tabla[*ind].tam = i;
         tabla[*ind].frecuencia = A->frecuencia;
-        memset(tabla[*ind].representacion, 0, 8);
+        memset(tabla[*ind].representacion, 0, 16);
         for(int j = 0; j<i; j++)
             tabla[*ind].representacion[j] = c[j];
         (*ind)++;
@@ -67,8 +67,8 @@ void recorridoArbol(nodo* A, char c[], int i, int* ind, valor* tabla)
 
 void llenarTabla(valor* tabla, nodo* A)
 {
-    char c[8];
-    memset(c, 0, 8);
+    char c[16];
+    memset(c, 0, 16);
     int indice = 0;
     recorridoArbol(A, c, 0, &indice, tabla);
 }

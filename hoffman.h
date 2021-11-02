@@ -8,7 +8,7 @@ typedef struct valor
     char c;
     int frecuencia;
     size_t tam;
-    char representacion[8];
+    char representacion[16];
 }valor;
 
 void inicializarNodos(int contador[], nodo nodos[], int total);

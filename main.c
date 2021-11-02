@@ -56,7 +56,14 @@ int main(int arg, char* args[])
         printf("Error al reservar memoria\n");
         exit(1);
     }
-    
+
+    for(int i=0; i<total_nodos; i++)
+    {
+        tabla[i].c = 0;
+        tabla[i].frecuencia = -1;
+        tabla[i].tam = 0;
+        memset(tabla[i].representacion, 0, 16);
+    } 
     inicializarNodos(contador, nodos, total_nodos); //Inicializa los nodos con sus respectivos bytes
 
     nodo* arbol = construirArbol(nodos, total_nodos); //Construye el arbol y regresa la direccion de la raiz
@@ -89,7 +96,10 @@ int main(int arg, char* args[])
         }
         for(int k=0; k<tabla[j].tam; k++)
         {
-            ((char*)nuevoDocumento)[bit/8] |= (tabla[j].representacion[k] << (bit % 8));
+            if(tabla[j].representacion[k] == 1)
+                ((char*)nuevoDocumento)[bit/8] |= (1 << (bit % 8));
+            else if(tabla[j].representacion[k] == 0)
+                ((char*)nuevoDocumento)[bit/8] |= (0 << (bit % 8));
             bit++;
         }
     }
