@@ -1,3 +1,17 @@
+/*
+Autor: Backyardigans
+Profesor: Edgardo Adrián Franco Martínez
+Practica03: Codificacion voraz de Huffman
+Fecha: 01/Noviembre/2021
+
+Descripcion: 
+Implementacion de un MinHeap para poder implementar una cola de prioridades.
+
+Observaciones:
+Construye e inserta los nodos del arbol con base a la frecuencia
+*/
+
+//Librerias
 #include "heap.h"
 
 /*
@@ -44,7 +58,7 @@ Descripcion: Mantiene la propiedad de un MinHeap
 Recibe: nodo* A[](Referencia a un arreglo de punteros de tipo nodo), int total(Total de nodos en el heap),
 int i(Indice del nodo para verificar)
 Devuelve: void
-Observaciones: 
+Observaciones: Si dicho nodo no rompe con la propiedad, no modificara nada
 */
 void MinHeapify(nodo* A[],int total , int i)
 {
@@ -70,7 +84,7 @@ void BuildMinHeap(nodo* A[], int total)
 Descripcion: Construye un heap de tipo nodo
 Recibe: nodo* A[](Referencia a un arreglo de punteros de tipo nodo), int total(Total de nodos en el heap)
 Devuelve: void
-Observaciones:
+Observaciones: El arreglo debe ya tener los nodos con las frecuencias
 */
 void BuildMinHeap(nodo* A[], int total)
 {
