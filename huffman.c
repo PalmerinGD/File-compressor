@@ -34,13 +34,15 @@ Funcionamiento:
 #include "huffman.h"
 
 /*
-void x()
-Descripcion:
-Recibe:
-Devuelve:
-Observaciones:
-*/
 void inicializarNodos(int contador[], nodo nodos[], int total)
+Descripcion: Inicializa los nodos que se van a usar para construir
+el arbol de huffman con el contador
+Recibe: int contador[](Contador de bytes), nodo nodos[](Referencia
+al arreglo de nodos)
+Devuelve: void
+Observaciones: El contador debe de tener las frecuencias de cada byte
+*/
+void inicializarNodos(int contador[], nodo nodos[])
 {
     int indiceNodo = 0;
     for(int i=0; i<256; i++)
@@ -57,11 +59,11 @@ void inicializarNodos(int contador[], nodo nodos[], int total)
 }
 
 /*
-void x()
-Descripcion:
-Recibe:
-Devuelve:
-Observaciones:
+nodo* construirArbol(nodo nodos[], int total)
+Descripcion: Construye el arbol de huffman y devuelve el nodo raiz
+Recibe: nodo nodos[](Referencia de los nodos hoja), int total(Total de nodos hoja)
+Devuelve: nodo*(Referencia al nodo raiz)
+Observaciones: Los nodos ya debieron de haber sido inicializados antes de construir el arbol
 */
 nodo* construirArbol(nodo nodos[], int total)
 {
@@ -91,11 +93,13 @@ nodo* construirArbol(nodo nodos[], int total)
 }
 
 /*
-void x()
-Descripcion:
-Recibe:
-Devuelve:
-Observaciones:
+void recorridoArbol(nodo* A, char c[], int i, int* ind, valor* tabla)
+Descripcion: Recorre el arbol A para generar el codigo de Huffman
+Recibe: nodo* A(Referencia al nodo raiz), char c[](Arreglo para ir generando el codigo),
+int *ind(Referencia al indice donde se guardara el valor del byte), valor* tabla(Tabla de frecuencias)
+Devuelve: void
+Observaciones: El arbol de huffman ya fue construido y el arreglo de caracteres
+debe de estar inicializado previamente.
 */
 void recorridoArbol(nodo* A, char c[], int i, int* ind, valor* tabla)
 {
@@ -118,11 +122,11 @@ void recorridoArbol(nodo* A, char c[], int i, int* ind, valor* tabla)
 }
 
 /*
-void x()
-Descripcion:
-Recibe:
-Devuelve:
-Observaciones:
+void llenarTabla(valor* tabla, nodo* A)
+Descripcion: Llena la tabla de frecuencias con el arbol de Huffman
+Recibe: valor* tabla(Referencia a la tabla de frecuencias), nodo* A(Arbol de Huffman)
+Devuelve: void
+Observaciones: El arbol de Huffman fue previamente llenado
 */
 void llenarTabla(valor* tabla, nodo* A)
 {
@@ -133,11 +137,11 @@ void llenarTabla(valor* tabla, nodo* A)
 }
 
 /*
-void x()
-Descripcion:
-Recibe:
-Devuelve:
-Observaciones:
+void imprimirTabla(FILE* archivo, valor* tabla, int total)
+Descripcion: Imprime la tabla de frecuencias en el archivo 
+Recibe: FILE* archivo(Puntero al archivo), valor* tabla(Referencia a la tabla), int total(Total de bytes actuales)
+Devuelve: void
+Observaciones: La tabla ha sido previamente llenada
 */
 void imprimirTabla(FILE* archivo, valor* tabla, int total)
 {
@@ -151,11 +155,11 @@ void imprimirTabla(FILE* archivo, valor* tabla, int total)
 }
 
 /*
-void x()
-Descripcion:
-Recibe:
-Devuelve:
-Observaciones:
+int totalBits(valor* tabla, int total)
+Descripcion: Devuelve la cantidad total de bits
+Recibe: valor* tabla(Referencia a la tabla de frecuencia), int total(Tamanio de la tabla)
+Devuelve: int(Total de bits)
+Observaciones: La tabla fue previamente llenada
 */
 int totalBits(valor *tabla, int total)
 {
@@ -169,10 +173,10 @@ int totalBits(valor *tabla, int total)
 
 
 /*
-void x()
-Descripcion:
-Recibe:
-Devuelve:
+void borrarArbol(nodo* A)
+Descripcion: Borra el arbol de huffman
+Recibe: nodo* A(Referencia al nodo raiz)
+Devuelve: void
 Observaciones:
 */
 void borrarArbol(nodo* A)

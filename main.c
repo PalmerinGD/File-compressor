@@ -104,7 +104,7 @@ int main(int arg, char* args[])
         tabla[i].tam = 0;
         memset(tabla[i].representacion, 0, 16);
     } 
-    inicializarNodos(contador, nodos, total_nodos); //Inicializa los nodos con sus respectivos bytes
+    inicializarNodos(contador, nodos); //Inicializa los nodos con sus respectivos bytes
 
     nodo* arbol = construirArbol(nodos, total_nodos); //Construye el arbol y regresa la direccion de la raiz
     llenarTabla(tabla, arbol); //Llena la tabla de valores

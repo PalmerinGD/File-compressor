@@ -49,7 +49,7 @@ typedef struct valor
 }valor;
 
 // Defincion de funciones
-void inicializarNodos(int contador[], nodo nodos[], int total); //Inicializa los nodos del arbol de acuerdo al contador
+void inicializarNodos(int contador[], nodo nodos[]); //Inicializa los nodos del arbol de acuerdo al contador
 nodo* construirArbol(nodo nodos[], int total); // Construye el arbol de Huffman
 void recorridoArbol(nodo* A, char c[], int i, int* ind, valor* tabla); // Recorre el arbol para generar las conversiones
 void llenarTabla(valor* tabla, nodo* A); // LLena la tabla de valores con el arbol

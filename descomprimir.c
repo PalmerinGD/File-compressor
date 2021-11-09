@@ -75,7 +75,7 @@ int main(int argc, char* argv[])
 
     fclose(archivo);
 
-    inicializarNodos(contador, nodos, total_nodos); //Se inicializan los nodos con el contador
+    inicializarNodos(contador, nodos); //Se inicializan los nodos con el contador
     nodo* arbol = construirArbol(nodos, total_nodos); //Se construye el arbol
 
     FILE *comprimido;
