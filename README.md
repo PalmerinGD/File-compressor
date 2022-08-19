@@ -22,5 +22,6 @@ In case of Windows, you can install gcc by downloading the [installer](https://g
 ## Installation
 Open a terminal and type `make`. It will build the executable file so that you can use it.
 ## Usage
+
 ## Contributors
 ## License
